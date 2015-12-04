@@ -153,7 +153,6 @@ def main():
     args = parser.parse_args()
     addressString = args.Address.replace(',',' ')
     addressString = addressString.replace(' ','-')
-    print addressString
 
     #parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
     #                    type=str, help='Search term (default: %(default)s)')
@@ -163,7 +162,6 @@ def main():
 
     inputValue ={}
     toPrint ='http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/'
-    print toPrint
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/',inputValue)
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/2/',inputValue)
     results = {}
