@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+  <div class="container-full">
+
+      <div class="row">
+       
+        <div class="col-lg-12 text-center v-center">
+          
+          <h1>Hello Landing</h1>
+          <p class="lead">Let's find your favorite apartments together</p>
+          
+          <br>
+          
+           <form class="col-lg-12">
+            <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
+              <input type="text" id="numberOfBeds"class="center-block form-control all-round" title="Enter you email." placeholder="Enter how many bed you want. e.g &quot 2&quot">
+            </div> 
+            <br>
+            <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
+              <input type="text" id="maxPrice" class="center-block form-control all-round" title="Enter you email." placeholder="Enter the maximum price. e.g &quot 2000&quot">
+            </div> 
+            <br>            
+            <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
+              <input type="text" id = "city"class="center-block form-control all-round" title="Enter you email." placeholder="Enter the city. e.g &quot San Jose, CA&quot">
+            </div> 
+            <br>
+            <button class="btn all-round btn-info active" style = "width:33% !important"type="button" onclick ="search()" >OK</button>
+            <br><br><br>
+            <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
+         <!--      <img src='http://community.globaleditorsnetwork.org/sites/all/themes/gen/images/loader.gif' style ="width:20%"> -->
+             <!--  <img class="all-round" src='http://i64.tinypic.com/25i82t4.gif' style ="width:100%"> -->
+              <img class="all-round img-fadein" id ="gannam" src='https://45.media.tumblr.com/tumblr_mb3vxrXvor1r6k9sco1_500.gif' style ="width:100%">
+            </div> 
+            
+          </form>
+        </div>
+        
+      </div> <!-- /row -->
+
+</div> <!-- /container full -->
+
+<div class="container">
+  
+    <hr>
+    <div class="row"> 
+            <p style="margin-bottom:0"> One day I was searching Apartments in San Jose on both the <a href = "http:\\www.apartments.com"> "www.apartments.com"</a> and <a href ="http:\\www.yelp.com">"www.yelp.com"</a>.</p>
+            <p style="margin-bottom:0">Appartments.com has filters including max price, number of beds but lack of reviews and rating from previous residents.</p>
+            <p style="margin-bottom:0">Yelp.com has the most reliable reviews and ratings while it lacks of any kind of filters.</p>
+            <p style="margin-bottom:0">After 10 minutes of copying and pasting appartments infomation back and forth between two website, I come up with this idea: why not build a cool tool for my own use?</p>
+            Here it is!!
+    </div>
+  
+  <div class="row">
+        <div class="col-lg-12">
+          <p class="lead text-right"> <a href>Author: Jiwei Xia</a> <a href> Email: xiajiwei@yahoo.com</a></p>
+        </div>
+    </div>
+</div>
+<div id="resultDiv"><div>
+  <script>
+      var xhttp = new XMLHttpRequest();
+      var data={};
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+           var temp = xhttp.responseText;
+           data = JSON.parse(xhttp.responseText);
+           alert(data);
+          }
+        };
+
+      var busy = false;
+      var requestData={};
+      function search(){
+        if (busy == false) $('#gannam').toggleClass('fade');
+        busy = true;
+        requestData.numberOfBeds = document.getElementById("numberOfBeds").value;
+        requestData.maxPrice = document.getElementById("maxPrice").value;
+        requestData.city = document.getElementById("city").value;
+        xhttp.open("POST", "/search", true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send(JSON.stringify(requestData));
+      };
+  </script>
+</body>
+</html>
