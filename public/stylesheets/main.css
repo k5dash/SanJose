@@ -112,3 +112,7 @@ h1 {
    -moz-transition: opacity .25s ease-in-out;
    -webkit-transition: opacity .25s ease-in-out;
    }
+IMG.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto }

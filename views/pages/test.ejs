@@ -15,7 +15,7 @@
           <p class="lead">Let's find your favorite apartments together</p>
           
           <br>
-          
+          <div id="collapse">
            <form class="col-lg-12">
             <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
               <input type="text" id="numberOfBeds"class="center-block form-control all-round" title="Enter you email." placeholder="Enter how many bed you want. e.g &quot 2&quot">
@@ -30,15 +30,21 @@
             </div> 
             <br>
             <button class="btn all-round btn-info active" style = "width:33% !important"type="button" onclick ="search()" >OK</button>
-            <br><br><br>
-            <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
-         <!--      <img src='http://community.globaleditorsnetwork.org/sites/all/themes/gen/images/loader.gif' style ="width:20%"> -->
-             <!--  <img class="all-round" src='http://i64.tinypic.com/25i82t4.gif' style ="width:100%"> -->
-              <img class="all-round img-fadein" id ="gannam" src='https://45.media.tumblr.com/tumblr_mb3vxrXvor1r6k9sco1_500.gif' style ="width:100%">
-            </div> 
-            
+            <br><br>
           </form>
-        </div>
+          </div>
+                  <div class="input-group input-group-lg col-sm-offset-4 col-sm-4">
+                    <div id = "fadediv" style = "display: none">
+                        <br>
+                        <img class=" displayed" src='http://community.globaleditorsnetwork.org/sites/all/themes/gen/images/loader.gif' id="loading" style ="width:20%">
+                        <img class=" displayed" src='https://www.cxalloy.com/images/green_circle_check.png' id="done" style ="width:20%; display:none;">
+                        <br><br>
+                        <p class="lead" id = "busyMessage"> It takes a while, because its doing web crawling. </p>
+                        <p class="lead" id = "doneMessage" style="display:none"> Done! we find some good apartments </p>
+                    </div>
+                      <img class="all-round img-fadein" id ="gannam" src='https://45.media.tumblr.com/tumblr_mb3vxrXvor1r6k9sco1_500.gif' style ="width:98%">
+                    </div> 
+          </div>
         
       </div> <!-- /row -->
 
@@ -67,24 +73,46 @@
       var data={};
         xhttp.onreadystatechange = function() {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
-            //document.getElementById("resultDiv").innerHTML = xhttp.responseText;
+            document.getElementById("resultDiv").innerHTML = xhttp.responseText;
            var temp = xhttp.responseText;
            data = JSON.parse(xhttp.responseText);
            alert(data);
+            $('#loading').fadeOut(function(){
+              $('#done').fadeIn();  
+            });
+            var count = Object.keys(data).length;
+            $('#doneMessage').html("Done! we find "+ count +" good apartments");
+            $('#busyMessage').fadeOut(function(){
+              $('#doneMessage').fadeIn();
+            });
+            
+            // $('#loading').fadeOut(function(){
+            //   $('#done').fadeIn();
+            //   document.getElementById("done").style.visibility = "visible";
+            //   document.getElementById("done").style.display = "block";
+            // });
           }
         };
 
       var busy = false;
       var requestData={};
       function search(){
-        if (busy == false) $('#gannam').toggleClass('fade');
+        $('#collapse').toggle(1000);
+
+        if (busy == false) $('#gannam').fadeOut(function(){
+          $('#fadediv').fadeIn(2000);
+          document.getElementById("fadediv").style.visibility = "visible";
+          document.getElementById("fadediv").style.display = "block"; 
+        });
         busy = true;
+        
         requestData.numberOfBeds = document.getElementById("numberOfBeds").value;
         requestData.maxPrice = document.getElementById("maxPrice").value;
         requestData.city = document.getElementById("city").value;
         xhttp.open("POST", "/search", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send(JSON.stringify(requestData));
+
       };
   </script>
 </body>
