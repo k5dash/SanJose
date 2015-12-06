@@ -67,6 +67,7 @@
       var data={};
         xhttp.onreadystatechange = function() {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
+            //document.getElementById("resultDiv").innerHTML = xhttp.responseText;
            var temp = xhttp.responseText;
            data = JSON.parse(xhttp.responseText);
            alert(data);

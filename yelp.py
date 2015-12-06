@@ -4,10 +4,7 @@ import pprint
 import sys
 import urllib
 import urllib2
-<<<<<<< HEAD
 import sys
-=======
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
 
 import oauth2
 
@@ -27,7 +24,6 @@ TOKEN_SECRET = 'zcfQlefNl46kpUMXclfgWmruwFA'
 from bs4 import BeautifulSoup
 
 def parse( url , lobbying):
-<<<<<<< HEAD
     r = urllib.urlopen(url).read()
     soup = BeautifulSoup(r,"html.parser")
     letters = soup.find_all("article", class_="platinum")
@@ -50,30 +46,6 @@ def parse( url , lobbying):
             lobbying[name]['city'] = city
             lobbying[name]['zip'] = zip
     return lobbying
-=======
-	r = urllib.urlopen(url).read()
-	soup = BeautifulSoup(r,"html.parser")
-	letters = soup.find_all("article", class_="platinum")
-	letters += soup.find_all("article", class_="gold")
-	letters += soup.find_all("article", class_="silver")
-	letters += soup.find_all("article", class_="bronze")
-	letters += soup.find_all("article", class_="basic")
-	for element in letters:
-			name = element.find("section",class_="placardHeader").a.get_text()
-			url = element.get('data-url')
-			img = element.find("div",class_="carouselInner").div.meta.get('content')
-			city = element.find(itemprop="addressLocality").get_text()
-			streetAddress = element.find(itemprop="streetAddress").get_text()
-			zip = element.find(itemprop="postalCode").get_text()
-
-			lobbying[name]={}
-			lobbying[name]['url'] = url 
-			lobbying[name]['img'] = img
-			lobbying[name]['streetAddress'] = streetAddress
-			lobbying[name]['city'] = city
-			lobbying[name]['zip'] = zip
-	return lobbying
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
 
 
 
@@ -109,12 +81,8 @@ def request(host, path, url_params=None):
         oauth2.SignatureMethod_HMAC_SHA1(), consumer, token)
     signed_url = oauth_request.to_url()
 
-<<<<<<< HEAD
     #print u'Querying {0} ...'.format(url)
     #sys.stdout.flush()
-=======
-    print u'Querying {0} ...'.format(url)
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
 
     conn = urllib2.urlopen(signed_url, None)
     try:
@@ -175,16 +143,10 @@ def query_api(term, location, results):
     #        len(businesses), business_id)
     response = get_business(business_id)
 
-<<<<<<< HEAD
     
     #print u'Result for business "{0}" found:'.format(business_id)
     #pprint.pprint(response, indent=2)
     results[business_id]=response
-=======
-    #print u'Result for business "{0}" found:'.format(business_id)
-    #pprint.pprint(response, indent=2)
-    results[term]=response
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
 
 def main():
     parser = argparse.ArgumentParser()
@@ -194,10 +156,7 @@ def main():
     args = parser.parse_args()
     addressString = args.Address.replace(',',' ')
     addressString = addressString.replace(' ','-')
-<<<<<<< HEAD
     #print addressString
-=======
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
 
     #parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
     #                    type=str, help='Search term (default: %(default)s)')
@@ -207,7 +166,6 @@ def main():
 
     inputValue ={}
     toPrint ='http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/'
-<<<<<<< HEAD
     #print toPrint
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/',inputValue)
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/2/',inputValue)
@@ -224,29 +182,10 @@ def main():
         #for result in sorted_results:
             #if len(result[1]['location']['address']) !=0:
                 #print result#[0]+':\n\t'+"Rating: %.1f" % result[1]['rating'] + "\n\tAddress:" +result[1]['location']['address'][0] + ','+ result[1]['location']['city']+','+ result[1]['location']['state_code']
-=======
-    parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/',inputValue)
-    parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/2/',inputValue)
-    results = {}
-    try:
-    	for appartments in inputValue:
-	        query_api(appartments, inputValue[appartments]['streetAddress']+','+inputValue[appartments]['city']+','+inputValue[appartments]['zip'],results)
-    	#pprint.pprint(results, indent=2)
-    	sorted_results = sorted(results.items(), key = lambda tup: (tup[1]["rating"]),reverse=True)
-    	#pprint.pprint(sorted_results, indent=2)
-    	for result in sorted_results:
-    		if len(result[1]['location']['address']) !=0:
-    			print result[0]+':\n\t'+"Rating: %.1f" % result[1]['rating'] + "\n\tAddress:" +result[1]['location']['address'][0] + ','+ result[1]['location']['city']+','+ result[1]['location']['state_code']
-
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
     except urllib2.HTTPError as error:
         sys.exit(
             'Encountered HTTP error {0}. Abort program.'.format(error.code))
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     main()
-=======
-    main()
->>>>>>> 246ab3689aa147c9be51eeb6122e52ae90d92989
