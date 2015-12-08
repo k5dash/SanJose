@@ -83,15 +83,13 @@ def request(host, path, url_params=None):
 
     #print u'Querying {0} ...'.format(url)
     #sys.stdout.flush()
-
-    conn = urllib2.urlopen(signed_url, None)
     try:
+        conn = urllib2.urlopen(signed_url, None)
         response = json.loads(conn.read())
-    finally:
         conn.close()
-
-    return response
-
+        return response
+    except:
+        return None
 
 def search(term, location):
     """Query the Search API by a search term and location.
@@ -130,7 +128,8 @@ def query_api(term, location, img, url, results):
         location (str): The location of the business to query.
     """
     response = search(term, location)
-
+    if (response == None):
+        return
     businesses = response.get('businesses')
 
     if not businesses:
@@ -138,12 +137,11 @@ def query_api(term, location, img, url, results):
         return
 
     business_id = businesses[0]['id']
-
     #print u'{0} businesses found, querying business info ' \
     #    'for the top result "{1}" ...'.format(
     #        len(businesses), business_id)
     response = get_business(business_id)
-    if (response['categories'][0][0]!='Apartments'):
+    if (response == None or response['categories'][0][0]!='Apartments'):
         return
     response['realImg'] = img
     response['realUrl'] = url
@@ -173,12 +171,12 @@ def main():
     #print toPrint
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/',inputValue)
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/2/',inputValue)
-
+    parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/3/',inputValue)
     results = {}
     try:
         for appartments in inputValue:
             query_api(appartments, inputValue[appartments]['streetAddress']+','+inputValue[appartments]['city']+','+inputValue[appartments]['zip'], inputValue[appartments]['img'],inputValue[appartments]['url'],results)
-        print json.dumps(results, ensure_ascii=False);
+        print json.dumps(results, ensure_ascii=False)
         #pprint.pprint(results, indent=2)
         #sorted_results = sorted(results.items(), key = lambda tup: (tup[1]["rating"]),reverse=True)
         #pprint.pprint(sorted_results, indent=2)

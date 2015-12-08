@@ -22,7 +22,9 @@ app.post('/search', function(request, response){
 	});
 	py1.stdout.on('close', function (data) {
 		console.log("Data Recieved!");
+		console.log(output)
 		response.send(output);
+		console.log(output);
 	});
 });
 
