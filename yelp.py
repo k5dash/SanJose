@@ -105,7 +105,8 @@ def search(term, location):
     url_params = {
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
-        'limit': SEARCH_LIMIT
+        'limit': SEARCH_LIMIT,
+        'category_filter':'apartments'
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 
@@ -122,7 +123,7 @@ def get_business(business_id):
     return request(API_HOST, business_path)
 
 
-def query_api(term, location, results):
+def query_api(term, location, img, url, results):
     """Queries the API by the input values from the user.
     Args:
         term (str): The search term to query.
@@ -142,7 +143,10 @@ def query_api(term, location, results):
     #    'for the top result "{1}" ...'.format(
     #        len(businesses), business_id)
     response = get_business(business_id)
-
+    if (response['categories'][0][0]!='Apartments'):
+        return
+    response['realImg'] = img
+    response['realUrl'] = url
     
     #print u'Result for business "{0}" found:'.format(business_id)
     #pprint.pprint(response, indent=2)
@@ -174,7 +178,7 @@ def main():
     results = {}
     try:
         for appartments in inputValue:
-            query_api(appartments, inputValue[appartments]['streetAddress']+','+inputValue[appartments]['city']+','+inputValue[appartments]['zip'],results)
+            query_api(appartments, inputValue[appartments]['streetAddress']+','+inputValue[appartments]['city']+','+inputValue[appartments]['zip'], inputValue[appartments]['img'],inputValue[appartments]['url'],results)
         print json.dumps(results, ensure_ascii=False);
         #pprint.pprint(results, indent=2)
         #sorted_results = sorted(results.items(), key = lambda tup: (tup[1]["rating"]),reverse=True)

@@ -74,9 +74,10 @@
   <script>
       var xhttp = new XMLHttpRequest();
       var data={};
+      var count =0;
         xhttp.onreadystatechange = function() {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
-            document.getElementById("resultDiv").innerHTML = xhttp.responseText;
+            //document.getElementById("resultDiv").innerHTML = xhttp.responseText;
            var temp = xhttp.responseText;
            data = JSON.parse(xhttp.responseText);
            alert(data);
@@ -84,7 +85,7 @@
               $('#done').fadeIn();
               $('#arrowDiv').fadeIn();  
             });
-            var count = Object.keys(data).length;
+            count = Object.keys(data).length;
             if (count !=0){
               $('#doneMessage').html("Done! we find "+ count +" good apartments.");
             }
@@ -107,9 +108,31 @@
       var requestData={};
 
        function scroll(){
-          $('html,body').animate({
-              scrollTop: $("#resultDiv").offset().top},
-              1000);
+        var dataArray = [];
+        for(var i in data){
+          dataArray.push(data[i]);
+        }
+
+        dataArray.sort(function(a,b){return b.rating - a.rating});
+
+        if(count !=0)
+            var htmlString = "<div Style='background#E0D8E0'><ul>";
+          for (var i=0; i<count;i++){
+            var house = dataArray[i];
+            htmlString += "<li><img width=20% height=20% src='" + house.realImg + "' ><h3 style ='margin-top:0'>"+house.name+
+            "</h3>"+ house.location.address+','+house.location.city+'  ' +house.location.state_code +'<br>'
+             +"<p>"+ 
+            "<img style='padding-top:5px' src='"+house.rating_img_url+"'>"+"<br><br>"+ "Appartments.com: <a href='"+house.realUrl+"'>"+   house.realUrl+"</a><br>" +
+            "Yelp.com:<a href='"+house.url+"'>"+   house.url+"</a><br>"+
+            "</p></li>";
+          }
+
+          htmlString +="</ul></div>";
+           $('#resultDiv').html(htmlString);
+
+            $('html,body').animate({
+                scrollTop: $("#resultDiv").offset().top},
+                1000);
       };
       function search(){
         $('#collapse').toggle(1000);
