@@ -173,7 +173,6 @@ def main():
     #print toPrint
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/',inputValue)
     parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/2/',inputValue)
-    parse('http://www.apartments.com/'+addressString+'/'+args.BedNum+'-beds-under-'+args.MaxPrice+'/3/',inputValue)
 
     results = {}
     try:
