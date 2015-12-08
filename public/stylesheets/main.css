@@ -116,3 +116,14 @@ IMG.displayed {
     display: block;
     margin-left: auto;
     margin-right: auto }
+
+#arrow { 
+
+    -webkit-filter: brightness(150%);
+}
+
+#arrow:hover { 
+    cursor: pointer;
+    -webkit-filter: brightness(200%);
+    transform: scale(1.1);
+}

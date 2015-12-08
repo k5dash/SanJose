@@ -39,16 +39,18 @@
                         <img class=" displayed" src='http://community.globaleditorsnetwork.org/sites/all/themes/gen/images/loader.gif' id="loading" style ="width:20%">
                         <img class=" displayed" src='https://www.cxalloy.com/images/green_circle_check.png' id="done" style ="width:20%; display:none;">
                         <br><br>
-                        <p class="lead" id = "busyMessage"> It takes a while, because its doing web crawling. </p>
-                        <p class="lead" id = "doneMessage" style="display:none"> Done! we find some good apartments </p>
+                        <p class="lead" id = "busyMessage"> It takes a while, because it's doing web crawling. </p>
+                        <p class="lead" id = "doneMessage" style="display:none"> Done! we find some good apartments. </p>
                     </div>
                       <img class="all-round img-fadein" id ="gannam" src='https://45.media.tumblr.com/tumblr_mb3vxrXvor1r6k9sco1_500.gif' style ="width:98%">
-                      <img class="all-round img-fadein" id ="arrow" src='http://maputaland.net/img/down-arrow.png' style ="width:20%;display:none">
                     </div> 
           </div>
-        
+       
       </div> <!-- /row -->
-
+      <div id = "arrowDiv" Style ="display: none">
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <img class="displayed img-fadein" id ="arrow" src='http://maputaland.net/img/down-arrow.png' onclick="scroll()" style ="width:7%">
+      </div>
 </div> <!-- /container full -->
 
 <div class="container">
@@ -80,10 +82,15 @@
            alert(data);
             $('#loading').fadeOut(function(){
               $('#done').fadeIn();
-              $('#arrow').fadeIn();  
+              $('#arrowDiv').fadeIn();  
             });
             var count = Object.keys(data).length;
-            $('#doneMessage').html("Done! we find "+ count +" good apartments");
+            if (count !=0){
+              $('#doneMessage').html("Done! we find "+ count +" good apartments.");
+            }
+            else {
+              $('#doneMessage').html("Sorry, we did not find any apartments at this price. Would you like to <a href='.'><span Style='font-size:120%;font-weight: bold'>Try another one<a></span>?");
+            }
             $('#busyMessage').fadeOut(function(){
               $('#doneMessage').fadeIn();
             });
@@ -98,6 +105,12 @@
 
       var busy = false;
       var requestData={};
+
+       function scroll(){
+          $('html,body').animate({
+              scrollTop: $("#resultDiv").offset().top},
+              1000);
+      };
       function search(){
         $('#collapse').toggle(1000);
 
