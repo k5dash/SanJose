@@ -84,7 +84,7 @@ def request(host, path, url_params=None):
     #print u'Querying {0} ...'.format(url)
     #sys.stdout.flush()
     try:
-        conn = urllib2.urlopen(signed_url, timeout = 5)
+        conn = urllib2.urlopen(signed_url, None)
         response = json.loads(conn.read())
         conn.close()
         return response
@@ -127,8 +127,6 @@ def query_api(term, location, img, url, results):
         term (str): The search term to query.
         location (str): The location of the business to query.
     """
-
-
     response = search(term, location)
     if (response == None):
         return
@@ -139,7 +137,6 @@ def query_api(term, location, img, url, results):
         return
 
     business_id = businesses[0]['id']
-    print business_id
     #print u'{0} businesses found, querying business info ' \
     #    'for the top result "{1}" ...'.format(
     #        len(businesses), business_id)
