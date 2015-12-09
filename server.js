@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var childProcess = require('child_process');
 var bodyParser = require('body-parser');
+var fs = require("fs");
 
 app.set('port', (process.env.PORT || 5000));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,15 +17,15 @@ app.post('/search', function(request, response){
 	console.log(request.body);
 	py1 = childProcess.spawn('python',['yelp.py',request.body.numberOfBeds,request.body.maxPrice, request.body.city]);
 	response.setHeader('Content-Type', 'application/text');
-	var output='';
+
 	py1.stdout.on('data', function(data) {
-		output += data;
+
 	});
 	py1.stdout.on('close', function (data) {
 		console.log("Data Recieved!");
-		console.log(output)
-		response.send(output);
-		console.log(output);
+		var result = fs.readFileSync("data.json");
+		response.send(result);
+		console.log(result.length);
 	});
 });
 

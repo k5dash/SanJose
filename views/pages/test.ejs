@@ -78,8 +78,8 @@
         xhttp.onreadystatechange = function() {
           if (xhttp.readyState == 4 && xhttp.status == 200) {
             //document.getElementById("resultDiv").innerHTML = xhttp.responseText;
-           var temp = xhttp.responseText;
-           data = JSON.parse(xhttp.responseText);
+           var temp = xhttp.responseText.trim();
+           data = JSON.parse(xhttp.responseText.trim());
             $('#loading').fadeOut(function(){
               $('#done').fadeIn();
               $('#arrowDiv').fadeIn();  
@@ -142,7 +142,7 @@
           document.getElementById("fadediv").style.display = "block"; 
         });
         busy = true;
-        
+        xhttp.timeout = 100000;
         requestData.numberOfBeds = document.getElementById("numberOfBeds").value;
         requestData.maxPrice = document.getElementById("maxPrice").value;
         requestData.city = document.getElementById("city").value;

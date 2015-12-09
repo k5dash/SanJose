@@ -84,7 +84,7 @@ def request(host, path, url_params=None):
     #print u'Querying {0} ...'.format(url)
     #sys.stdout.flush()
     try:
-        conn = urllib2.urlopen(signed_url, None)
+        conn = urllib2.urlopen(signed_url, timeout = 1)
         response = json.loads(conn.read())
         conn.close()
         return response
@@ -176,7 +176,10 @@ def main():
     try:
         for appartments in inputValue:
             query_api(appartments, inputValue[appartments]['streetAddress']+','+inputValue[appartments]['city']+','+inputValue[appartments]['zip'], inputValue[appartments]['img'],inputValue[appartments]['url'],results)
-        print json.dumps(results, ensure_ascii=False)
+        with open('data.json', 'w') as outfile:
+            json.dump(results, outfile)
+        print 'done'
+        #sys.stdout.write(json.dumps(results, ensure_ascii=False)) 
         #pprint.pprint(results, indent=2)
         #sorted_results = sorted(results.items(), key = lambda tup: (tup[1]["rating"]),reverse=True)
         #pprint.pprint(sorted_results, indent=2)
